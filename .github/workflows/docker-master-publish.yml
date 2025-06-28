@@ -3,7 +3,7 @@ name: Docker Publish 📦
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 
 permissions:
