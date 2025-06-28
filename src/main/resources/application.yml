@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mariadb://localhost:3306/twitch_integration}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        provider:
+          twitch:
+            authorization-uri: https://id.twitch.tv/oauth2/authorize
+            token-uri: https://id.twitch.tv/oauth2/token
+            user-info-uri: https://api.twitch.tv/helix/users
+            user-name-attribute: preferred_username
+            jwk-set-uri: https://id.twitch.tv/oauth2/keys
+
+twitch:
+  secret: ${TWITCH_SECRET:big-secret!}
+  id: ${TWITCH_ID:twitch-client-id}
+  redirect-uri: "http://localhost/oauth2/twitch/callback"
+  callback-redirect-uri: /profile?twitch=connected
+
+
+jwt:
+  secret: YXNkZmF3ZHdhZmRBRkFTRkFXZHNmZ2dhc2Z3RVJScVdFUkh3ZXJ0ZmV3cg==
+  expiration: 300000

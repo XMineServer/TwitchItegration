@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  twitch-integration:
+    image: sidey383/twitch-integration:${TAG:-latest}
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/twitch_integration
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      TWITCH_SECRET: ${TWITCH_SECRET:-big-secret!}
+      TWITCH_ID: ${TWITCH_ID:-twitch-client-id}
+    ports:
+      - "8080:8080"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mariadb:
+    image: mariadb:11.3
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: twitch_integration
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: >
+        mariadb -uroot -ppassword -e "SELECT 1;" twitch_integration
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  mariadb_data:
