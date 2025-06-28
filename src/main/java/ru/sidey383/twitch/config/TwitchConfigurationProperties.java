@@ -7,6 +7,7 @@ public record TwitchConfigurationProperties(
         String secret,
         String id,
         String redirectUri,
-        String callbackRedirectUri
+        String callbackRedirectUri,
+        String webhookUri
 ) {
 }

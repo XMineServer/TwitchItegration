@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -37,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/oauth2/twitch/**").authenticated()
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .requestMatchers("/api/integration/**").hasRole("USER")
+                        .requestMatchers("/api/minecraft/**").hasRole("ADMIN")
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/webhook/twitch/**").permitAll()
                         .anyRequest().authenticated()

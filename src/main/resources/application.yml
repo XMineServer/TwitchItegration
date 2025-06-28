@@ -8,24 +8,21 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  security:
-    oauth2:
-      client:
-        provider:
-          twitch:
-            authorization-uri: https://id.twitch.tv/oauth2/authorize
-            token-uri: https://id.twitch.tv/oauth2/token
-            user-info-uri: https://api.twitch.tv/helix/users
-            user-name-attribute: preferred_username
-            jwk-set-uri: https://id.twitch.tv/oauth2/keys
 
 twitch:
   secret: ${TWITCH_SECRET:big-secret!}
   id: ${TWITCH_ID:twitch-client-id}
-  redirect-uri: "http://localhost/oauth2/twitch/callback"
-  callback-redirect-uri: /profile?twitch=connected
+  redirect-uri: ${TWITCH_REDIRECT_URL:http://localhost/oauth2/twitch/callback}
+  callback-redirect-uri: ${TWITCH_CALLBACK_REDIRECT_URL:/profile?twitch=connected}
+  webhook-uri: ${TWITCH_WEBHOOK_URL:https://twitch.sidey383.ru/webhook/twitch}
 
 
 jwt:
   secret: YXNkZmF3ZHdhZmRBRkFTRkFXZHNmZ2dhc2Z3RVJScVdFUkh3ZXJ0ZmV3cg==
   expiration: 300000
+
+minecraft:
+  rcon:
+    host: ${MINECRAFT_RCON_HOST:localhost}
+    port: ${MINECRAFT_RCON_PORT:25575}
+    password: ${MINECRAFT_RCON_PASSWORD:password}

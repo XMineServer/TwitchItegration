@@ -2,14 +2,16 @@ package ru.sidey383.twitch.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sidey383.twitch.client.TwitchAPIClient;
 import ru.sidey383.twitch.client.TwitchAuthClient;
 import ru.sidey383.twitch.config.TwitchConfigurationProperties;
-import ru.sidey383.twitch.dto.twitch.*;
+import ru.sidey383.twitch.dto.twitch.TwitchEventSubRequest;
+import ru.sidey383.twitch.dto.twitch.TwitchEventSubType;
+import ru.sidey383.twitch.dto.twitch.TwitchTokenResponse;
+import ru.sidey383.twitch.dto.twitch.TwitchUserResponse;
 import ru.sidey383.twitch.model.TwitchToken;
 import ru.sidey383.twitch.model.TwitchUser;
 import ru.sidey383.twitch.model.User;
@@ -137,13 +139,13 @@ public class TwitchService {
                 .transport(
                         TwitchEventSubRequest.Transport.builder()
                                 .method("webhook")
-                                .callback(properties.callbackRedirectUri())
+                                .callback(properties.webhookUri())
                                 .secret(properties.secret())
                                 .build()
                 )
                 .build();
         TwitchTokenResponse appToken = authClient.appToken(properties.id(), properties.secret());
-        String auth = appToken.tokenType() + " " + appToken.accessToken();
+        String auth = "Bearer " + appToken.accessToken();
         log.info("Subscribing for reward for user {}", user);
         apiClient.subscribeRequest(properties.id(), auth, request);
     }

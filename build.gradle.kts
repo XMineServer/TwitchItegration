@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "ru.sidey383"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 
 java {
 	toolchain {
@@ -22,6 +22,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven("https://jitpack.io")
 }
 
 extra["springCloudVersion"] = "2025.0.0"
@@ -40,6 +41,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-configuration-processor")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
+	implementation("io.github.MrGraversen:minecraft-rcon:0.0.16")
 
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 

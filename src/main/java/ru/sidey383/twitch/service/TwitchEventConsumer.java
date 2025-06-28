@@ -4,6 +4,6 @@ import ru.sidey383.twitch.dto.twitch.RedemptionEvent;
 
 public interface TwitchEventConsumer {
 
-    void handleRewardRedemption(RedemptionEvent event);
+    default void handleRewardRedemption(RedemptionEvent event) {}
 
 }

@@ -8,8 +8,20 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/twitch_integration
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
+
       TWITCH_SECRET: ${TWITCH_SECRET:-big-secret!}
       TWITCH_ID: ${TWITCH_ID:-twitch-client-id}
+      TWITCH_REDIRECT_URL: ${TWITCH_REDIRECT_URL:-http://localhost/oauth2/twitch/callback}
+      TWITCH_CALLBACK_REDIRECT_URL: ${TWITCH_CALLBACK_REDIRECT_URL:-/profile?twitch=connected}
+      TWITCH_WEBHOOK_URL: ${TWITCH_WEBHOOK_URL:-https://twitch.sidey383.ru/webhook/twitch}
+
+      JWT_SECRET: ${JWT_SECRET:-YXNkZmF3ZHdhZmRBRkFTRkFXZHNmZ2dhc2dhc2Z3RVJScVdFUkh3ZXJ0ZmV3cg==}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-300000}
+
+      MINECRAFT_RCON_HOST: ${MINECRAFT_RCON_HOST:-localhost}
+      MINECRAFT_RCON_PORT: ${MINECRAFT_RCON_PORT:-25575}
+      MINECRAFT_RCON_PASSWORD: ${MINECRAFT_RCON_PASSWORD:-password}
+
     ports:
       - "8080:8080"
     depends_on:
