@@ -48,11 +48,5 @@ jobs:
 
       - name: Push image to GHCR
         run: |
-          VERSION=$(./gradlew -q printVersion) # see note
-          echo "Pushing version $VERSION"
-          docker tag sidey383/twitch-integration:${project.version} \
-            ghcr.io/${{ github.repository_owner }}/twitch-integration:$VERSION
-          docker tag sidey383/twitch-integration:${project.version} \
-            ghcr.io/${{ github.repository_owner }}/twitch-integration:latest
-          docker push ghcr.io/${{ github.repository_owner }}/twitch-integration:$VERSION
-          docker push ghcr.io/${{ github.repository_owner }}/twitch-integration:latest
+          docker tag sidey383/twitch-integration:latest $GHCR_IMAGE:latest
+          docker push $GHCR_IMAGE:latest
