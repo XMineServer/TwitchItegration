@@ -12,7 +12,7 @@ public record RedemptionEvent(
         @JsonProperty("user_name")
         String userName,
         @JsonProperty("broadcaster_user_id")
-        String broadcasterId,
+        Long broadcasterId,
         @JsonProperty("broadcaster_user_name")
         String broadcasterName,
         @JsonProperty("broadcaster_user_login")

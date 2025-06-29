@@ -1,6 +1,7 @@
-package ru.sidey383.twitch.dto.twitch;
+package ru.sidey383.twitch.dto.twitch.event;
 
 import org.springframework.web.bind.annotation.RequestHeader;
+import ru.sidey383.twitch.dto.twitch.TwitchMessageType;
 
 public record TwitchEventSubHeaders(
         @RequestHeader("twitch-eventsub-message-id")

@@ -6,6 +6,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.lang.NonNull;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.sidey383.twitch.config.twitch.TwitchHeadersResolver;
 import ru.sidey383.twitch.dto.twitch.TwitchMessageType;
 
 import java.util.List;

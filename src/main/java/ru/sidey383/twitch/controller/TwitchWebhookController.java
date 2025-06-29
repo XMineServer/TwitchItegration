@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.sidey383.twitch.dto.twitch.TwitchEventSubHeaders;
-import ru.sidey383.twitch.dto.twitch.TwitchEventSubNotification;
-import ru.sidey383.twitch.service.TwitchEventConsumer;
+import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubHeaders;
+import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubNotification;
+import ru.sidey383.twitch.service.TwitchNotificationConsumer;
 import ru.sidey383.twitch.service.TwitchWebhookVerifier;
 
 import java.util.Collection;
@@ -24,7 +24,7 @@ import java.util.Collection;
 @RequestMapping("/webhook/twitch")
 @RequiredArgsConstructor
 public class TwitchWebhookController {
-    private final Collection<TwitchEventConsumer> eventConsumers;
+    private final Collection<TwitchNotificationConsumer> eventConsumers;
     private final TwitchWebhookVerifier verifier;
     private final ObjectMapper objectMapper;
 
@@ -43,11 +43,7 @@ public class TwitchWebhookController {
                 return callbackVerification(bodyValue);
             }
             case NOTIFICATION -> {
-                var event = bodyValue.event();
-                if (event == null) {
-                    return ResponseEntity.badRequest().build();
-                }
-                eventConsumers.forEach(consumer -> consumer.handleRewardRedemption(event));
+                eventConsumers.forEach(consumer -> consumer.handleNotification(bodyValue));
             }
             case REVOCATION -> {
                 log.info("Revocation {}", bodyValue.subscription());

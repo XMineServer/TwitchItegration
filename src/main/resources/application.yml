@@ -9,6 +9,25 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          twitch:
+            client-id: ${TWITCH_ID:twitch-client-id}
+            client-secret: ${TWITCH_SECRET:big-secret!}
+            client-name: Twitch
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: user:read:email
+        provider:
+          twitch:
+            authorization-uri: https://id.twitch.tv/oauth2/authorize
+            token-uri: https://id.twitch.tv/oauth2/token
+            user-info-uri: https://api.twitch.tv/helix/users
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            user-name-attribute: id
+
 twitch:
   secret: ${TWITCH_SECRET:big-secret!}
   id: ${TWITCH_ID:twitch-client-id}
@@ -26,3 +45,10 @@ minecraft:
     host: ${MINECRAFT_RCON_HOST:localhost}
     port: ${MINECRAFT_RCON_PORT:25575}
     password: ${MINECRAFT_RCON_PASSWORD:password}
+
+logging:
+  level:
+    org.springframework.security.oauth2.client: DEBUG
+    org.springframework.security.oauth2.core: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.web: DEBUG

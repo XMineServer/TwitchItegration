@@ -1,4 +1,4 @@
-package ru.sidey383.twitch.config;
+package ru.sidey383.twitch.config.twitch;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

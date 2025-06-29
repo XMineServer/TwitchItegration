@@ -3,7 +3,7 @@ package ru.sidey383.twitch.service;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.sidey383.twitch.dto.twitch.TwitchEventSubHeaders;
+import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubHeaders;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

@@ -9,7 +9,11 @@ public enum TwitchEventSubType {
     CHANNEL_SUBSCRIBE("channel.subscribe"),
     CHANNEL_RAID("channel.raid"),
     CHANNEL_BAN("channel.ban"),
-    CHANNEL_UNBAN("channel.unban");
+    CHANNEL_UNBAN("channel.unban"),
+    SUBSCRIPTION_CREATE("channel.subscription.create"),
+    SUBSCRIPTION_UPDATE("channel.subscription.update"),
+    SUBSCRIPTION_DELETE("channel.subscription.delete")
+    ;
 
     private final String value;
 
