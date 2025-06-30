@@ -53,9 +53,6 @@ public class TwitchOAuth2User implements OAuth2User {
 
     private Instant createdAt;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<TwitchWebhook> webhooks;
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
@@ -103,4 +100,9 @@ public class TwitchOAuth2User implements OAuth2User {
     public String getName() {
         return login;
     }
+
+    public boolean isAdmin() {
+        return roles.contains("ADMIN");
+    }
+
 }

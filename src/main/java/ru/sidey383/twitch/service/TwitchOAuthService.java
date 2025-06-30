@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.sidey383.twitch.client.TwitchAuthClient;
 import ru.sidey383.twitch.config.twitch.TwitchConfigurationProperties;
 import ru.sidey383.twitch.dto.twitch.TwitchTokenResponse;
+import ru.sidey383.twitch.exception.TwitchInvalidRefreshTokenException;
 import ru.sidey383.twitch.model.TwitchOAuth2User;
 import ru.sidey383.twitch.repository.TwitchOAuth2UserRepository;
 
@@ -32,11 +33,16 @@ public class TwitchOAuthService {
         TwitchTokenResponse answer;
         try {
              answer = authClient.refresh(
-                    user.getId().toString(),
-                    user.getRefreshToken(),
-                    user.getAccessToken()
+                     properties.clientId(),
+                     properties.clientSecret(),
+                    user.getRefreshToken()
             );
         } catch (FeignException feignException) {
+            String msg = feignException.contentUTF8();
+            if (feignException.status() == 400 && msg != null && msg.contains("Invalid refresh token")) {
+                log.warn("Invalid refresh token for user {}. User should re-authenticate.", user.getId());
+                throw new TwitchInvalidRefreshTokenException("Invalid refresh token", feignException);
+            }
             log.warn("Failed to refresh OAuth2 user {}", user.getId(), feignException);
             return;
         }
@@ -58,10 +64,6 @@ public class TwitchOAuthService {
         authToken = response.accessToken();
         tokenExpiration = Instant.now().plusSeconds(response.expiresIn());
         return authToken;
-    }
-
-    public String getAppAuthorizationHeader() {
-        return "Bearer " + getAuthToken();
     }
 
 }

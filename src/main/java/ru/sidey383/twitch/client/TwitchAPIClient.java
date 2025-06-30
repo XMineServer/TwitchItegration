@@ -2,11 +2,11 @@ package ru.sidey383.twitch.client;
 
 import jakarta.annotation.Nullable;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.sidey383.twitch.dto.twitch.DataList;
 import ru.sidey383.twitch.dto.twitch.RewardDescription;
-import ru.sidey383.twitch.dto.twitch.event.TwitchEventSub;
 import ru.sidey383.twitch.dto.twitch.TwitchUserResponse;
 
 import java.util.List;
@@ -17,39 +17,8 @@ import java.util.List;
         url = "https://api.twitch.tv/helix",
         configuration = ru.sidey383.twitch.config.twitch.JsonFeignConfig.class
 )
+//TODO: remove this client and use Twitch4J instead
 public interface TwitchAPIClient {
-
-    @PostMapping(value = "/eventsub/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    DataList<TwitchEventSub> subscribeRequest(
-            @RequestHeader("Client-Id")
-            String clientID,
-            @RequestHeader("Authorization")
-            String authorization,
-            @RequestBody TwitchEventSub request
-
-    );
-
-    @GetMapping(value = "/eventsub/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    DataList<TwitchEventSub> getSubscriptions(
-            @RequestHeader("Client-Id")
-            String clientID,
-            @RequestHeader("Authorization")
-            String authorization,
-            @Nullable
-            @RequestParam("subscription_id")
-            String subscriptionId
-    );
-
-    @DeleteMapping(value = "/eventsub/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void deleteSubscriptions(
-            @RequestHeader("Client-Id")
-            String clientID,
-            @RequestHeader("Authorization")
-            String authorization,
-            @Nullable
-            @RequestParam("id")
-            String subscriptionId
-    );
 
     @GetMapping("/users")
     DataList<TwitchUserResponse> getUserInfo(

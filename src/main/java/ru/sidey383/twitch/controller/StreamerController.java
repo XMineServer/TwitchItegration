@@ -5,13 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.sidey383.twitch.model.EventRewardType;
 import ru.sidey383.twitch.model.TwitchEventReward;
 import ru.sidey383.twitch.model.TwitchOAuth2User;
 import ru.sidey383.twitch.service.TwitchEventRewardService;
 import ru.sidey383.twitch.service.TwitchRewardsService;
-import ru.sidey383.twitch.service.TwitchWebhookSubscriptionService;
+import ru.sidey383.twitch.webhook.facade.TwitchChannelPointsSubscriptionFacade;
 
 import java.util.stream.Collectors;
 
@@ -20,25 +23,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StreamerController {
 
-    private final TwitchWebhookSubscriptionService webhookSubscriptionService;
+    private final TwitchChannelPointsSubscriptionFacade channelPointsSubscriptionFacade;
     private final TwitchEventRewardService twitchEventRewardService;
     private final TwitchRewardsService twitchRewardsService;
 
-    @GetMapping("/rewards")
-    public String getRewards(
+    @GetMapping("/subscribe/channelPointsRewardRedemption")
+    public String getChannelPointsRedemptionWebhooks(
             Model model,
             @AuthenticationPrincipal TwitchOAuth2User user
     ) {
-        var rewards = twitchRewardsService.getRewardDescriptions(user);
-        model.addAttribute("rewards", rewards);
-        model.addAttribute("events", twitchEventRewardService.getRewardEvents(user).stream().collect(
-                Collectors.toMap(
-                        TwitchEventReward::getRewardType,
-                        TwitchEventReward::getRewardId,
-                        (existing, replacement) -> existing
-                )
-        ));
-        return "admin/streamer/rewards";
+        var subscribes = channelPointsSubscriptionFacade.getChannelPointsRedemptionWebhooks(user.getId());
+        model.addAttribute("channelPointsRedemptionWebhooks", subscribes);
+        return "streamer/components/channelPointsRewardRedemption :: webhookTable";
     }
 
     @GetMapping
@@ -55,7 +51,7 @@ public class StreamerController {
                         (existing, replacement) -> existing
                 )
         ));
-        model.addAttribute("webhooks", webhookSubscriptionService.getAllWebhooks(user));
+        model.addAttribute("channelPointsRedemptionWebhooks", channelPointsSubscriptionFacade.getChannelPointsRedemptionWebhooks(user.getId()));
         return "streamer/index";
     }
 

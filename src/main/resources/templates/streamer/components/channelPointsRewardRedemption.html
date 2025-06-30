@@ -1,0 +1,81 @@
+<div>
+    <h3>Подписки на события Channel Points Redemption</h3>
+    <div id="webhook-error" style="color:red;" th:text="${error}"></div>
+    <div id="webhook-table"
+         th:fragment="webhookTable"
+         hx-get="/streamer/subscribe/channelPointsRewardRedemption"
+         hx-target="#webhook-table"
+         hx-swap="innerHTML">
+        <div id="webhook-list">
+            <div th:if="${channelPointsRedemptionWebhooks.size > 0}">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Subscription ID</th>
+                        <th>Broadcaster ID</th>
+                        <th>Reward ID</th>
+                        <th>Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="webhook : ${channelPointsRedemptionWebhooks.subscriptions}">
+                        <td th:text="${webhook.subscriptionId}"></td>
+                        <td th:text="${webhook.broadcasterId}"></td>
+                        <td th:text="${webhook.rewardId}"></td>
+                        <td>
+                            <button type="button" th:attr="onclick=|deleteWebhook('${webhook.subscriptionId}')|">
+                                Удалить
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${channelPointsRedemptionWebhooks.size == 0}">
+                <button type="button" onclick="createWebhook()">
+                    Создать подписку на события
+                </button>
+            </div>
+        </div>
+    </div>
+    <button id="refresh-webhooks-btn" type="button">
+        Обновить список подписок
+    </button>
+    <script>
+        async function fetchWebhooksAndRender() {
+            try {
+                htmx.ajax('GET', '/streamer/subscribe/channelPointsRewardRedemption', {
+                    target: '#webhook-table',
+                    swap: 'innerHTML'
+                });
+                document.getElementById('webhook-error').textContent = '';
+            } catch (e) {
+                document.getElementById('webhook-error').textContent = e.message;
+            }
+        }
+
+        async function createWebhook() {
+            try {
+                const resp = await fetch('/api/streamer/subscribe/channelPointsRewardRedemption', { method: 'POST' });
+                if (!resp.ok) throw new Error('Ошибка создания подписки');
+                await fetchWebhooksAndRender();
+                document.getElementById('webhook-error').textContent = '';
+            } catch (e) {
+                document.getElementById('webhook-error').textContent = e.message;
+            }
+        }
+
+        async function deleteWebhook(subscriptionId) {
+            try {
+                const resp = await fetch('/api/streamer/subscribe/channelPointsRewardRedemption?subscriptionId=' + encodeURIComponent(subscriptionId), { method: 'DELETE' });
+                if (!resp.ok) throw new Error('Ошибка удаления подписки');
+                await fetchWebhooksAndRender();
+                document.getElementById('webhook-error').textContent = '';
+            } catch (e) {
+                document.getElementById('webhook-error').textContent = e.message;
+            }
+        }
+
+        document.getElementById('refresh-webhooks-btn').onclick = fetchWebhooksAndRender;
+    </script>
+</div>

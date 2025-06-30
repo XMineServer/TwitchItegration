@@ -30,7 +30,7 @@ public class TwitchRewardsService {
      * @return A list of {@link RewardDescription} objects or null when can't fetch rewards.
      */
     @Nullable
-    @Cacheable(value = "twitchRewardDescriptions", key = "#user.id", condition = "!#result.isEmpty()")
+    @Cacheable(value = "twitchRewardDescriptions", key = "#user.id", condition = "!(#result == null || #result.isEmpty())")
     public List<RewardDescription> getRewardDescriptions(TwitchOAuth2User user) {
         try {
             twitchOAuthService.updateOAuthUserIfRequired(user);

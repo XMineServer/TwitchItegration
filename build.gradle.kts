@@ -49,11 +49,15 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
 	implementation("io.github.MrGraversen:minecraft-rcon:0.0.16")
 
+	implementation("com.github.twitch4j:twitch4j:1.25.0")
+
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
 	compileOnly("org.projectlombok:lombok")
+	implementation("org.mapstruct:mapstruct:1.4.2.Final")
 
 	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.4.2.Final")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

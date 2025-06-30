@@ -32,6 +32,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/streamer/**")
+                        .ignoringRequestMatchers("/admin/**")
+                        .ignoringRequestMatchers("/api/**")
                         .ignoringRequestMatchers("/webhook/**")
                 )
                 .oauth2Login(oauth -> oauth
@@ -46,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/oauth2/twitch/**").authenticated()
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .requestMatchers("/api/minecraft/**").hasRole("ADMIN")
+                        .requestMatchers("/api/streamer/**").hasRole("STREAMER")
                         .requestMatchers( "/admin/*").hasRole("ADMIN")
                         .requestMatchers("/streamer/**").hasRole("STREAMER")
                         .anyRequest().permitAll()
