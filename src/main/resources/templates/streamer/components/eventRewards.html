@@ -1,0 +1,23 @@
+<div class="event-rewards-list" th:fragment="eventRewards">
+    <form method="post" th:action="@{/streamer/eventReward}" th:each="eventType : ${T(ru.sidey383.twitch.model.EventRewardType).values()}">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <div class="event-reward-row">
+            <label class="event-reward-label" th:for="'event-' + ${eventType.name()}" th:text="${eventType.displayName}">Event Type</label>
+            <label class="event-reward-description" th:for="'event-' + ${eventType.name()}" th:text="${eventType.description}">Event Description</label>
+            <input type="hidden" name="eventType" th:value="${eventType.name()}"/>
+            <select class="event-reward-select" th:id="'event-' + ${eventType.name()}" name="rewardId">
+                <option value=""
+                        class="event-reward-option-empty"
+                        th:selected="${events == null || events.get(eventType) == null}">
+                    <i>Nothing</i>
+                </option>
+                <option th:each="reward : ${rewards}"
+                        th:value="${reward.id}"
+                        th:text="${reward.title} "
+                        th:selected="${events != null} ? ${events.get(eventType) == reward.id} : false"
+                ></option>
+            </select>
+            <button type="submit" class="event-reward-btn">Save</button>
+        </div>
+    </form>
+</div>

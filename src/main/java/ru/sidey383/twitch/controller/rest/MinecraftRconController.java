@@ -1,4 +1,4 @@
-package ru.sidey383.twitch.controller;
+package ru.sidey383.twitch.controller.rest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

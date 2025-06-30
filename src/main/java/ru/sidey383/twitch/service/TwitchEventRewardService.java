@@ -8,19 +8,25 @@ import ru.sidey383.twitch.model.TwitchEventReward;
 import ru.sidey383.twitch.model.TwitchOAuth2User;
 import ru.sidey383.twitch.repository.TwitchEventRewardRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TwitchEventRewardService {
 
     private final TwitchEventRewardRepository twitchEventRewardRepository;
 
+
+
     @Transactional
-    public TwitchEventReward addWhitelistEventReward(TwitchOAuth2User broadcaster, String rewardId, EventRewardType type) {
-        var oldEventReward = twitchEventRewardRepository.findByOwnerAndRewardId(broadcaster, rewardId);
-        if (oldEventReward.isPresent()) {
+    public TwitchEventReward setRewardEvent(TwitchOAuth2User broadcaster, String rewardId, EventRewardType type) {
+        var useOfReward = twitchEventRewardRepository.findByOwnerAndRewardId(broadcaster, rewardId);
+        if (useOfReward.isPresent()) {
+            if (useOfReward.get().getRewardType() == type) return useOfReward.get();
             throw new IllegalArgumentException("Reward with ID " + rewardId + " already used for broadcaster " + broadcaster.getLogin());
         }
-        var reward = new TwitchEventReward();
+        var existingReward = twitchEventRewardRepository.findByOwnerAndRewardType(broadcaster, type);
+        var reward = existingReward.orElseGet(TwitchEventReward::new);
         reward.setRewardId(rewardId);
         reward.setOwner(broadcaster);
         reward.setRewardType(type);
@@ -29,6 +35,10 @@ public class TwitchEventRewardService {
 
     public void removeReward(TwitchOAuth2User broadcaster, String rewardId) {
         twitchEventRewardRepository.deleteByOwnerAndRewardId(broadcaster, rewardId);
+    }
+
+    public List<TwitchEventReward> getRewardEvents(TwitchOAuth2User broadcaster) {
+        return twitchEventRewardRepository.findByOwner(broadcaster);
     }
 
     public void removeReward(TwitchOAuth2User broadcaster, EventRewardType type) {

@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class TwitchOAuth2User implements OAuth2User {
 
     /**
-     * User id from Twitch API.
+     * User clientId from Twitch API.
      * **/
     @Id
     private Long id;
@@ -81,7 +81,7 @@ public class TwitchOAuth2User implements OAuth2User {
     }
 
     public boolean isExpire(Instant now, Duration stillAvailable) {
-        return now.plus(stillAvailable).isAfter(expiresIn);
+        return now.minus(stillAvailable).isAfter(expiresIn);
     }
 
     public boolean isExpire(Instant now) {

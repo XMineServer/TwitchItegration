@@ -1,6 +1,6 @@
-package ru.sidey383.twitch.dto.twitch;
+package ru.sidey383.twitch.dto.twitch.event;
 
-public record Reward(
+public record TwitchEventSubReward(
         String id,
         String title,
         int cost,

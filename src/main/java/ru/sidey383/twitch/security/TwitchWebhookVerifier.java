@@ -1,8 +1,8 @@
-package ru.sidey383.twitch.service;
+package ru.sidey383.twitch.security;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.sidey383.twitch.config.twitch.TwitchConfigurationProperties;
 import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubHeaders;
 
 import javax.crypto.Mac;
@@ -15,8 +15,7 @@ import java.util.HexFormat;
 public class TwitchWebhookVerifier {
     private static final String HMAC_SHA256 = "HmacSHA256";
     private static final String HMAC_PREFIX = "sha256=";
-    @Value("${twitch.secret}")
-    private final String secret;
+    private final TwitchConfigurationProperties twitchConfig;
 
     public boolean verifySignature(
             TwitchEventSubHeaders headers, String rawBody
@@ -27,17 +26,17 @@ public class TwitchWebhookVerifier {
     }
 
     private String getHmacMessage(TwitchEventSubHeaders headers, String rawBody) {
-        return  headers.messageId() + headers.timestamp().toString() + rawBody;
+        return  headers.messageId() + headers.timestamp() + rawBody;
     }
 
     private String calculateHmac(String message) {
         try {
             Mac hmac = Mac.getInstance(HMAC_SHA256);
-            hmac.init(new SecretKeySpec(secret.getBytes(), HMAC_SHA256));
+            hmac.init(new SecretKeySpec(twitchConfig.clientSecret().getBytes(StandardCharsets.UTF_8), HMAC_SHA256));
             byte[] hash = hmac.doFinal(message.getBytes(StandardCharsets.UTF_8));
             return HexFormat.of().formatHex(hash);
         } catch (Exception e) {
-            throw new SecurityException("Failed to calculate HMAC", e);
+            throw new RuntimeException("Error calculating HMAC: " + e.getMessage(), e);
         }
     }
 }

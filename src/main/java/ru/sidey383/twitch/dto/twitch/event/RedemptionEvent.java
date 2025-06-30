@@ -1,4 +1,4 @@
-package ru.sidey383.twitch.dto.twitch;
+package ru.sidey383.twitch.dto.twitch.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,7 +17,7 @@ public record RedemptionEvent(
         String broadcasterName,
         @JsonProperty("broadcaster_user_login")
         String broadcasterLogin,
-        Reward reward,
+        TwitchEventSubReward reward,
         @JsonProperty("user_input")
         String userInput,
         @JsonProperty("followed_at")

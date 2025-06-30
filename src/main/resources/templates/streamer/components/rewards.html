@@ -1,0 +1,25 @@
+<div class="rewards-list" th:fragment="rewards">
+    <div th:if="${#lists.isEmpty(rewards)}" class="rewards-empty">
+        No rewards available.
+    </div>
+    <div th:each="reward : ${rewards}" class="reward-card">
+        <div class="reward-icon">
+            <img th:src="${reward.image != null && reward.image.url2 != null ? reward.image.url2 : reward.defaultImage.url2}"
+                 alt="icon" th:style="'background-color:' + ${reward.backgroundColor}"/>
+        </div>
+        <div class="reward-info">
+            <div class="reward-title">
+                <span th:text="${reward.title}">Reward Title</span>
+                <span th:if="${reward.isUserInputRequired}" class="reward-input-required"
+                      title="User input required">📝</span>
+            </div>
+            <div class="reward-prompt" th:if="${reward.prompt}" th:text="${reward.prompt}"></div>
+            <div class="reward-meta">
+                <span class="reward-cost" th:text="${reward.cost} + ' points'"></span>
+                <span th:if="${!reward.isEnabled}" class="reward-status reward-disabled">Disabled</span>
+                <span th:if="${reward.isPaused}" class="reward-status reward-paused">Paused</span>
+                <span th:if="${!reward.isInStock}" class="reward-status reward-out">Out of stock</span>
+            </div>
+        </div>
+    </div>
+</div>

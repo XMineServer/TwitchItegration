@@ -1,0 +1,450 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #18181b;
+    color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #9147ff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 0;
+    margin: 0 0 2rem 0;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    padding: 0 2rem 0 2rem;
+    min-height: 56px;
+}
+
+.site-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-right: 2rem;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    flex: 1 1 auto;
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 2rem;
+}
+
+.nav-btn {
+    background: #772ce8;
+    color: #fff;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1rem;
+    border: none;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(145,71,255,0.10);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-btn:hover {
+    background: #a970ff;
+    color: #fff;
+}
+
+.nav-profile .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.5rem;
+    border: 2px solid #fff2;
+    background: #232327;
+}
+
+main, section[layout\\:fragment="content"] {
+    max-width: 480px;
+    margin: 3rem auto;
+    background: #232327;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+
+h2 {
+    margin-top: 0;
+    color: #9147ff;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+a.button, a[th\\:href*="twitch"] {
+    display: inline-block;
+    background: #9147ff;
+    color: #fff;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(145,71,255,0.12);
+}
+
+a.button:hover, a[th\\:href*="twitch"]:hover {
+    background: #772ce8;
+}
+
+/* Rewards List Styles */
+.rewards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.rewards-empty {
+    color: #aaa;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 2rem 0;
+}
+
+.reward-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background: #232327;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    padding: 1.2rem 1.5rem;
+    transition: box-shadow 0.2s;
+    min-height: 80px;
+    /* убираем яркий фон, оставляем нейтральный */
+}
+
+.reward-card:hover {
+    box-shadow: 0 4px 24px rgba(145,71,255,0.18);
+}
+
+/* Цветная рамка вокруг иконки награды */
+.reward-icon img {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background: transparent;
+    object-fit: contain;
+    display: block;
+}
+
+.reward-info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.reward-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.reward-input-required {
+    font-size: 1.1rem;
+    color: #ffd600;
+    vertical-align: middle;
+}
+
+.reward-prompt {
+    color: #d1c4e9;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.reward-meta {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+    margin-top: 0.2rem;
+    font-size: 0.98rem;
+}
+
+.reward-cost {
+    color: #00e5cb;
+    font-weight: 600;
+    background: #18181b;
+    padding: 0.2rem 0.7rem;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.reward-status {
+    padding: 0.15rem 0.7rem;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.reward-disabled {
+    background: #bdbdbd;
+    color: #232327;
+}
+
+.reward-paused {
+    background: #ffb300;
+    color: #232327;
+}
+
+.reward-out {
+    background: #e53935;
+    color: #fff;
+}
+
+/* Event Rewards Styles */
+.event-rewards-list {
+    margin: 2rem 0 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.event-reward-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #232327;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.event-reward-label {
+    min-width: 180px;
+    font-weight: 600;
+    color: #9147ff;
+    font-size: 1.05rem;
+}
+
+
+.event-reward-description {
+    min-width: 180px;
+    font-weight: 400;
+    color: #bdbdbd;
+    font-size: 0.98rem;
+}
+
+
+.event-reward-select {
+    flex: 1 1 auto;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #9147ff;
+    background: #18181b;
+    color: #fff;
+    font-size: 1rem;
+    margin-right: 1rem;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.event-reward-select:focus {
+    border: 1.5px solid #a970ff;
+}
+
+.event-reward-btn {
+    background: #9147ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(145,71,255,0.10);
+}
+
+.event-reward-btn:hover {
+    background: #772ce8;
+}
+
+.event-reward-option-empty {
+    color: #bdbdbd;
+    font-style: italic;
+}
+
+/* Webhook Styles */
+.webhook-list {
+    margin: 2rem 0 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.webhook-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #232327;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.webhook-label {
+    min-width: 220px;
+    font-weight: 600;
+    color: #9147ff;
+    font-size: 1.05rem;
+}
+
+.webhook-status {
+    min-width: 120px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 0.2rem 0.9rem;
+    text-align: center;
+    margin-right: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.webhook-status-enabled {
+    background: #00e5cb;
+    color: #232327;
+}
+
+.webhook-status-disabled {
+    background: #bdbdbd;
+    color: #232327;
+}
+
+.webhook-status-missing {
+    background: #e53935;
+    color: #fff;
+}
+
+.webhook-status-pending {
+    background: #ffb300;
+    color: #232327;
+}
+
+.webhook-status-problem {
+    background: #ff5252;
+    color: #fff;
+}
+
+.webhook-btn {
+    background: #9147ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(145,71,255,0.10);
+    margin-right: 0.5rem;
+}
+
+.webhook-btn:disabled {
+    background: #bdbdbd;
+    color: #232327;
+    cursor: not-allowed;
+}
+
+.webhook-btn-delete {
+    background: #e53935;
+    color: #fff;
+}
+
+.webhook-btn-delete:hover {
+    background: #b71c1c;
+}
+
+.webhook-btn:hover:not(:disabled) {
+    background: #772ce8;
+}
+
+@media (max-width: 800px) {
+    nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        padding: 0 1rem;
+    }
+    .site-title {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    .nav-links, .nav-user {
+        justify-content: flex-start;
+        margin-left: 0;
+    }
+    .nav-user {
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 0;
+    }
+    .site-title {
+        font-size: 1rem;
+        padding: 0;
+    }
+    nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0 0.5rem;
+    }
+    main, section[layout\\:fragment="content"] {
+        padding: 1rem;
+        max-width: 98vw;
+    }
+    .rewards-list {
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    .reward-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    .reward-icon-border {
+        min-width: 62px;
+        min-height: 62px;
+    }
+    .reward-icon-bg {
+        min-width: 48px;
+        min-height: 48px;
+        padding: 4px;
+    }
+    .reward-icon img {
+        width: 40px;
+        height: 40px;
+    }
+}

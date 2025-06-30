@@ -1,4 +1,4 @@
-package ru.sidey383.twitch.controller;
+package ru.sidey383.twitch.controller.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubHeaders;
 import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubNotification;
+import ru.sidey383.twitch.security.TwitchWebhookVerifier;
 import ru.sidey383.twitch.service.TwitchNotificationConsumer;
-import ru.sidey383.twitch.service.TwitchWebhookVerifier;
+import ru.sidey383.twitch.service.TwitchWebhookSubscriptionService;
 
 import java.util.Collection;
 
@@ -27,6 +28,7 @@ public class TwitchWebhookController {
     private final Collection<TwitchNotificationConsumer> eventConsumers;
     private final TwitchWebhookVerifier verifier;
     private final ObjectMapper objectMapper;
+    private final TwitchWebhookSubscriptionService subscriptionService;
 
     @PostMapping
     public ResponseEntity<?> handleRewardRedemption(
@@ -40,14 +42,11 @@ public class TwitchWebhookController {
         var bodyValue = objectMapper.readValue(rawBody, TwitchEventSubNotification.class);
         switch (headers.messageType()) {
             case WEBHOOK_CALLBACK_VERIFICATION -> {
+                subscriptionService.onVerification(bodyValue.subscription());
                 return callbackVerification(bodyValue);
             }
-            case NOTIFICATION -> {
-                eventConsumers.forEach(consumer -> consumer.handleNotification(bodyValue));
-            }
-            case REVOCATION -> {
-                log.info("Revocation {}", bodyValue.subscription());
-            }
+            case NOTIFICATION -> eventConsumers.forEach(consumer -> consumer.handleNotification(bodyValue));
+            case REVOCATION -> subscriptionService.onRevocation(bodyValue.subscription());
         }
         return ResponseEntity.ok().build();
     }

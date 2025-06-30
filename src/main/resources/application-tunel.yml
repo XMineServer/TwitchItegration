@@ -17,7 +17,7 @@ spring:
             client-secret: ${TWITCH_SECRET:big-clientSecret!}
             client-name: Twitch
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "https://twitch.sidey383.ru//login/oauth2/code/{registrationId}"
             scope: user:read:email,channel:read:redemptions
             webhook-uri: ${TWITCH_WEBHOOK_URL:https://twitch.sidey383.ru/webhook/twitch}
         provider:
@@ -25,17 +25,12 @@ spring:
             authorization-uri: https://id.twitch.tv/oauth2/authorize
             token-uri: https://id.twitch.tv/oauth2/token
             user-info-uri: https://api.twitch.tv/helix/users
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "https://twitch.sidey383.ru//login/oauth2/code/{registrationId}"
             user-name-attribute: clientId
   thymeleaf:
     cache: false
     suffix: .html
     prefix: file:src/main/resources/templates/
-
-
-jwt:
-  secret: YXNkZmF3ZHdhZmRBRkFTRkFXZHNmZ2dhc2Z3RVJScVdFUkh3ZXJ0ZmV3cg==
-  expiration: 300000
 
 minecraft:
   rcon:

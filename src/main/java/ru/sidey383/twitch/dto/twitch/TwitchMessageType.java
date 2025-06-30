@@ -1,5 +1,8 @@
 package ru.sidey383.twitch.dto.twitch;
 
+import lombok.Getter;
+
+@Getter
 public enum TwitchMessageType {
     WEBHOOK_CALLBACK_VERIFICATION("webhook_callback_verification"),
     NOTIFICATION("notification"),
@@ -9,10 +12,6 @@ public enum TwitchMessageType {
 
     TwitchMessageType(String twitchValue) {
         this.twitchValue = twitchValue;
-    }
-
-    public String getTwitchValue() {
-        return twitchValue;
     }
 
     public static TwitchMessageType fromValue(String value) {

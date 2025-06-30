@@ -2,7 +2,7 @@ package ru.sidey383.twitch.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.sidey383.twitch.dto.twitch.RedemptionEvent;
+import ru.sidey383.twitch.dto.twitch.event.RedemptionEvent;
 import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubNotification;
 import ru.sidey383.twitch.repository.TwitchEventRewardRepository;
 import ru.sidey383.twitch.repository.TwitchOAuth2UserRepository;

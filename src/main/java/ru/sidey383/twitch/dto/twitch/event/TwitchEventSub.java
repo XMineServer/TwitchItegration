@@ -10,6 +10,7 @@ public record TwitchEventSub(
         String id,
         String type,
         String version,
+        String status,
         TwitchEventSubConditions condition,
         TwitchEventSubTransport transport,
         @JsonProperty("created_at")

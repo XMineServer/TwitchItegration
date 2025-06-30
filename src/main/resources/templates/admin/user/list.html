@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <title>Users!</title>
+    <style src="/main.css"></style>
+    <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.min.js"></script>
+</head>
+<body>
+<section layout:fragment="content">
+    <div id="user-table"
+         hx-get="/admin/user/table"
+         hx-trigger="load"
+         hx-target="#user-table"
+         hx-swap="innerHTML"
+         th:with="_csrf=${_csrf}">
+    </div>
+    <button hx-get="/admin/user/table"
+            hx-target="#user-table"
+            hx-swap="innerHTML">
+        Обновить таблицу пользователей
+    </button>
+</section>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/main.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="site-title">Twitch Integration</div>
+        <div class="nav-links">
+            <a href="/admin/user/" class="nav-btn" sec:authorize="hasRole('ADMIN')">Users</a>
+            <a href="/streamer" class="nav-btn" sec:authorize="hasRole('STREAMER')">Settings</a>
+        </div>
+        <div class="nav-user">
+            <a href="/logout" sec:authorize="isAuthenticated()" class="nav-btn">Logout</a>
+            <a th:href="@{/oauth2/authorization/twitch}" sec:authorize="isAnonymous()" class="nav-btn">Login with Twitch</a>
+            <a href="/profile" sec:authorize="isAuthenticated()" class="nav-btn nav-profile">
+                <img th:src="${#authentication.principal.profileImageUrl}" alt="avatar" class="avatar" />
+                <span sec:authentication="principal.displayName"></span>
+            </a>
+        </div>
+    </nav>
+</header>
+<main layout:fragment="content">
+</main>
+</body>
+</html>

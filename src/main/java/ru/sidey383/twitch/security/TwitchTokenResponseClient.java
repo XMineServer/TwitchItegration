@@ -1,5 +1,7 @@
-package ru.sidey383.twitch.service.auth;
+package ru.sidey383.twitch.security;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
@@ -19,6 +21,7 @@ import java.util.Map;
 @Controller
 public class TwitchTokenResponseClient implements OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> {
 
+    private static final Logger log = LogManager.getLogger(TwitchTokenResponseClient.class);
     private final RestTemplate restTemplate;
 
     public TwitchTokenResponseClient() {
@@ -52,12 +55,14 @@ public class TwitchTokenResponseClient implements OAuth2AccessTokenResponseClien
         String accessToken = (String) body.get("access_token");
         String refreshToken = (String) body.get("refresh_token");
         long expiresIn = ((Number) body.get("expires_in")).longValue();
+        log.debug("Received access token: {}, refresh token: {}, expires in: {}", accessToken, refreshToken, expiresIn);
 
         return OAuth2AccessTokenResponse.withToken(accessToken)
                 .tokenType(OAuth2AccessToken.TokenType.BEARER)
                 .expiresIn(expiresIn)
                 .refreshToken(refreshToken)
                 .scopes(request.getClientRegistration().getScopes())
+                .additionalParameters(body)
                 .build();
     }
 
@@ -69,8 +74,7 @@ public class TwitchTokenResponseClient implements OAuth2AccessTokenResponseClien
         form.add("client_id", registration.getClientId());
         form.add("client_secret", registration.getClientSecret());
 
-        HttpEntity<?> entity = new HttpEntity<>(form, headers);
-        return entity;
+        return new HttpEntity<>(form, headers);
     }
 
 }

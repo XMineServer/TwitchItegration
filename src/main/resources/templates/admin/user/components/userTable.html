@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="userTable">
+    <table>
+        <thead>
+            <tr>
+                <th>Login</th>
+                <th>Display Name</th>
+                <th>Email</th>
+                <th>Roles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.login}"></td>
+                <td th:text="${user.displayName}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <form
+                        th:attr="hx-patch=@{/admin/user/{id}/roles(id=${user.id})}">
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                        <select name="roles" multiple>
+                            <option th:each="role : ${roles}"
+                                    th:value="${role}"
+                                    th:text="${role}"
+                                    th:selected="${user.roles != null} ? ${user.roles.contains(role)} : false">
+                            </option>
+                        </select>
+                        <button type="submit">Update Role</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

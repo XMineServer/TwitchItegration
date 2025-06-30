@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
 
-public record Subscription(
+public record WebhookSubscription(
         String id,
         //TODO: enum
         String status,
