@@ -12,7 +12,6 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  GHCR_IMAGE: ghcr.io/${{ github.repository  | lower }}
 
 jobs:
   build-and-push:
@@ -52,5 +51,7 @@ jobs:
 
       - name: Push image to GHCR
         run: |
-          docker tag sidey383/twitch-integration:latest $GHCR_IMAGE:latest
-          docker push $GHCR_IMAGE:latest
+          LOWERCASE_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME=ghcr.io/${LOWERCASE_REPO}
+          docker tag sidey383/twitch-integration:latest ${IMAGE_NAME}:latest
+          docker push ${IMAGE_NAME}:latest
