@@ -7,7 +7,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubHeaders;
+import ru.sidey383.twitch.dto.twitch.TwitchEventSubHeaders;
 import ru.sidey383.twitch.dto.twitch.TwitchMessageType;
 
 public class TwitchHeadersResolver implements HandlerMethodArgumentResolver {

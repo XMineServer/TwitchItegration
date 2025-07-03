@@ -4,7 +4,7 @@
     </div>
     <div th:each="reward : ${rewards}" class="reward-card">
         <div class="reward-icon">
-            <img th:src="${reward.image != null && reward.image.url2 != null ? reward.image.url2 : reward.defaultImage.url2}"
+            <img th:src="${reward.image != null && reward.image.url2x != null ? reward.image.url2x : reward.defaultImage.url2x}"
                  alt="icon" th:style="'background-color:' + ${reward.backgroundColor}"/>
         </div>
         <div class="reward-info">

@@ -10,20 +10,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public enum EventRewardType {
     MINECRAFT_WHITELIST_REWARD(
+            true,
             "Minecraft Whitelist Reward",
             "Allows users to add their Minecraft username to the whitelist. Require active 'Channel Points Redemption' webhook.",
             TwitchEventSubType.CHANNEL_POINTS_REDEMPTION_ADD
     ),
     MINECRAFT_MESSAGE_REWARD(
+            true,
             "Minecraft Message Reward",
             "Allows users to send a message in Minecraft chat. Require active 'Channel Points Redemption' webhook.",
             TwitchEventSubType.CHANNEL_POINTS_REDEMPTION_ADD
     );
+    private final boolean userInputRequired;
     private final String displayName;
     private final String description;
     private final List<TwitchEventSubType> events;
 
-    EventRewardType(String displayName, String description, TwitchEventSubType... events) {
+    EventRewardType(boolean userInputRequired, String displayName, String description, TwitchEventSubType... events) {
+        this.userInputRequired = userInputRequired;
         this.displayName = displayName;
         this.description = description;
         this.events = List.of(events);

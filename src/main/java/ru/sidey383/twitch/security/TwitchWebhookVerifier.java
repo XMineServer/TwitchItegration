@@ -1,6 +1,6 @@
 package ru.sidey383.twitch.security;
 
-import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubHeaders;
+import ru.sidey383.twitch.dto.twitch.TwitchEventSubHeaders;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

@@ -24,8 +24,8 @@ public class TwitchMinecraftEvent {
         if (!eventFiler(event)) return;
         var redemptionEvent = (CustomRewardRedemptionAddEvent) event.getNotification().getEvent();
         if (redemptionEvent == null) return;
-        if (redemptionEvent.getReward() == null) return;
         var reward = redemptionEvent.getReward();
+        if (reward == null) return;
         var broadcasterOpt = twitchOAuth2UserRepository.findById(Long.valueOf(redemptionEvent.getBroadcasterUserId()));
         if (broadcasterOpt.isEmpty()) return;
         var broadcaster = broadcasterOpt.get();

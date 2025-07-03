@@ -1,5 +1,8 @@
 package ru.sidey383.twitch.security;
 
+import com.github.twitch4j.helix.TwitchHelix;
+import com.github.twitch4j.helix.domain.User;
+import com.github.twitch4j.helix.domain.UserList;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import ru.sidey383.twitch.client.TwitchAPIClient;
-import ru.sidey383.twitch.config.twitch.TwitchConfigurationProperties;
-import ru.sidey383.twitch.dto.twitch.TwitchUserResponse;
 import ru.sidey383.twitch.model.Session;
 import ru.sidey383.twitch.model.TwitchOAuth2User;
 import ru.sidey383.twitch.repository.SessionRepository;
@@ -31,8 +31,7 @@ public class TwitchOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     public static final String SESSION_HEADER = "SESSIONID";
 
-    private final TwitchAPIClient twitchAPIClient;
-    private final TwitchConfigurationProperties configurationProperties;
+    private final TwitchHelix helix;
     private final TwitchOAuth2UserRepository twitchOAuth2UserRepository;
     private final SessionRepository sessionRepository;
 
@@ -44,20 +43,23 @@ public class TwitchOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         var accessToken = userRequest.getAccessToken();
         Map<String, Object> additionalParameters = userRequest.getAdditionalParameters();
 
-        var users = twitchAPIClient.getUserInfo(
-                "Bearer " + accessToken.getTokenValue(),
-                configurationProperties.clientId(),
+        UserList userList = helix.getUsers(
+                accessToken.getTokenValue(),
                 null,
                 null
-        ).getData();
+        ).execute();
+        var users = userList.getUsers();
+        if (users == null) {
+            throw new OAuth2AuthenticationException("Failed to retrieve user data from Twitch API.");
+        }
         if (users.isEmpty()) {
             throw new OAuth2AuthenticationException("No user data found for the provided access token.");
         }
         var userDto = users.getFirst();
-        var user = twitchOAuth2UserRepository.findById(userDto.id())
+        var user = twitchOAuth2UserRepository.findById(Long.valueOf(userDto.getId()))
                 .orElseGet(() -> {
                     var userCreate = new TwitchOAuth2User();
-                    userCreate.setId(userDto.id());
+                    userCreate.setId(Long.valueOf(userDto.getId()));
                     return userCreate;
                 });
         var updatedUser = updateUserData(user, userDto, accessToken, additionalParameters);
@@ -90,23 +92,23 @@ public class TwitchOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private TwitchOAuth2User updateUserData(
             TwitchOAuth2User user,
-            TwitchUserResponse usrDTO,
+            User usrer,
             OAuth2AccessToken accessToken,
             Map<String, Object> additionalParameters
     ) {
-        user.setId(usrDTO.id());
-        user.setLogin(usrDTO.login());
-        user.setDisplayName(usrDTO.displayName());
-        user.setBroadcastType(usrDTO.broadcastType());
+        user.setId(Long.valueOf(usrer.getId()));
+        user.setLogin(usrer.getLogin());
+        user.setDisplayName(usrer.getDisplayName());
+        user.setBroadcastType(usrer.getBroadcasterType());
         user.setAccessToken(accessToken.getTokenValue());
         user.setRefreshToken((String) additionalParameters.getOrDefault("refresh_token", ""));
         user.setExpiresIn(accessToken.getExpiresAt());
         user.setScope(String.join(" ", accessToken.getScopes()));
-        user.setDescription(usrDTO.description());
-        user.setProfileImageUrl(usrDTO.profileImageUrl());
-        user.setOfflineImageUrl(usrDTO.offlineImageUrl());
-        user.setEmail(usrDTO.email());
-        user.setCreatedAt(usrDTO.createdAt());
+        user.setDescription(usrer.getDescription());
+        user.setProfileImageUrl(usrer.getProfileImageUrl());
+        user.setOfflineImageUrl(usrer.getOfflineImageUrl());
+        user.setEmail(usrer.getEmail());
+        user.setCreatedAt(usrer.getCreatedAt());
 
         twitchOAuth2UserRepository.save(user);
         return user;

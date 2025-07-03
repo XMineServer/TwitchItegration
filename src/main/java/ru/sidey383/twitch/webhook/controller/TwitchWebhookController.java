@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sidey383.twitch.dto.twitch.TwitchMessageType;
-import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubHeaders;
+import ru.sidey383.twitch.dto.twitch.TwitchEventSubHeaders;
 import ru.sidey383.twitch.security.TwitchWebhookVerifier;
 import ru.sidey383.twitch.webhook.event.TwitchSubEvent;
 import ru.sidey383.twitch.webhook.repository.TwitchEventSubSecretRepository;
@@ -54,7 +54,6 @@ public class TwitchWebhookController {
         }
     }
 
-    // split map for d
     private boolean verify(TwitchEventSubHeaders headers, String rawBody, EventSubNotification notification) {
         return subSecretRepository.findById(notification.getSubscription().getId())
                 .map(secret -> TwitchWebhookVerifier.verifySignature(headers, rawBody, secret.getSecret()))

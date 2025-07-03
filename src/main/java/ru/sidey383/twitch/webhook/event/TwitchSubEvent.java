@@ -5,7 +5,7 @@ import com.github.twitch4j.eventsub.subscriptions.SubscriptionType;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 import ru.sidey383.twitch.dto.twitch.TwitchMessageType;
-import ru.sidey383.twitch.dto.twitch.event.TwitchEventSubHeaders;
+import ru.sidey383.twitch.dto.twitch.TwitchEventSubHeaders;
 
 @Getter
 public class TwitchSubEvent extends ApplicationEvent {

@@ -8,13 +8,14 @@
             <select class="event-reward-select" th:id="'event-' + ${eventType.name()}" name="rewardId">
                 <option value=""
                         class="event-reward-option-empty"
-                        th:selected="${events == null || events.get(eventType) == null}">
+                        th:selected="${events?.get(eventType) == null}">
                     <i>Nothing</i>
                 </option>
                 <option th:each="reward : ${rewards}"
                         th:value="${reward.id}"
-                        th:text="${reward.title} "
-                        th:selected="${events != null} ? ${events.get(eventType) == reward.id} : false"
+                        th:text="${reward.title}"
+                        th:if="${events?.get(eventType) == reward.id || !eventType.isUserInputRequired || reward.isUserInputRequired}"
+                        th:selected="${events?.get(eventType) == reward.id}"
                 ></option>
             </select>
             <button type="submit" class="event-reward-btn">Save</button>

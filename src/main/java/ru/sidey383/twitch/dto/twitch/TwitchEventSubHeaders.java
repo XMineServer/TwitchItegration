@@ -1,7 +1,6 @@
-package ru.sidey383.twitch.dto.twitch.event;
+package ru.sidey383.twitch.dto.twitch;
 
 import org.springframework.web.bind.annotation.RequestHeader;
-import ru.sidey383.twitch.dto.twitch.TwitchMessageType;
 
 public record TwitchEventSubHeaders(
         @RequestHeader("twitch-eventsub-message-id")
@@ -19,15 +18,4 @@ public record TwitchEventSubHeaders(
         @RequestHeader("twitch-eventsub-subscription-version")
         String subscriptionVersion
 ) {
-    public boolean isVerificationRequest() {
-        return messageType == TwitchMessageType.WEBHOOK_CALLBACK_VERIFICATION;
-    }
-
-    public boolean isNotification() {
-        return messageType == TwitchMessageType.NOTIFICATION;
-    }
-
-    public boolean isRevocation() {
-        return messageType == TwitchMessageType.REVOCATION;
-    }
 }

@@ -25,6 +25,8 @@ public class Twitch4JConfig {
                 .withEnableHelix(true)
                 .withTimeout(20000)
                 .withCredentialManager(credentialManager)
+                .withClientId(properties.clientId())
+                .withClientSecret(properties.clientSecret())
                 .build();
     }
 
