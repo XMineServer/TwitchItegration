@@ -62,9 +62,14 @@ public class Twitch4JService {
         return subscriptions.stream()
                 .map(subscription -> {
                     if (isActual(subscription.getStatus())) {
-                        subscriptionCacheService.put(subscription);
+                        eventSubSecretRepository.findById(subscription.getId()).ifPresentOrElse(
+                                (ignore) -> subscriptionCacheService.put(subscription),
+                                () -> log.warn("Unknown webhook subscription {}", subscription.getId())
+                        );
                         try {
-                            eventSubSecretRepository.save(new TwitchEventSubSecret(subscription.getId(), subscription.getTransport().getSecret()));
+                            if (subscription.getTransport().getSecret() != null) {
+                                eventSubSecretRepository.save(new TwitchEventSubSecret(subscription.getId(), subscription.getTransport().getSecret()));
+                            }
                             return subscription;
                         } catch (Throwable t) {
                             log.error("Failed to save EventSub secret for subscription ID: {}", subscription.getId(), t);

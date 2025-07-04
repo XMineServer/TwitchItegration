@@ -1,5 +1,6 @@
 package ru.sidey383.twitch.webhook.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -18,6 +19,7 @@ import java.time.Instant;
 public class TwitchEventSubSecret {
     @Id
     private String subscriptionId;
+    @Column(nullable = false)
     private String secret;
     @CreationTimestamp
     private Instant createdAt;
