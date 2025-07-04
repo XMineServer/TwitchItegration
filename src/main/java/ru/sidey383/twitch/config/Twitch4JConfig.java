@@ -4,7 +4,6 @@ import com.github.philippheuer.credentialmanager.CredentialManager;
 import com.github.philippheuer.credentialmanager.CredentialManagerBuilder;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
-import com.github.twitch4j.auth.providers.TwitchIdentityProvider;
 import com.github.twitch4j.helix.TwitchHelix;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +19,6 @@ public class Twitch4JConfig {
     @Bean
     public TwitchClient twitchClient() {
         CredentialManager credentialManager = CredentialManagerBuilder.builder().build();
-        credentialManager.registerIdentityProvider(new TwitchIdentityProvider(properties.clientId(), properties.clientSecret(), properties.redirectUri()));
         return TwitchClientBuilder.builder()
                 .withEnableHelix(true)
                 .withTimeout(20000)

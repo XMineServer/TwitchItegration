@@ -1,7 +1,10 @@
+server:
+  port: 8080
+  address: ${APP_ADDRESS:0.0.0.0}
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mariadb://mariadb:3306/twitch_integration}
-    username: ${SPRING_DATASOURCE_USERNAME:twitch-integration}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mariadb://localhost:3306/twitch_integration}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:password}
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
@@ -17,15 +20,13 @@ spring:
             client-secret: ${TWITCH_SECRET:big-clientSecret!}
             client-name: Twitch
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "https://twitch.sidey383.ru/login/oauth2/code/{registrationId}"
             scope: user:read:email,channel:read:redemptions
             webhook-uri: ${TWITCH_WEBHOOK_URL:https://twitch.sidey383.ru/webhook/twitch}
         provider:
           twitch:
             authorization-uri: https://id.twitch.tv/oauth2/authorize
             token-uri: https://id.twitch.tv/oauth2/token
-            user-info-uri: https://api.twitch.tv/helix/users
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             user-name-attribute: clientId
 
 minecraft:

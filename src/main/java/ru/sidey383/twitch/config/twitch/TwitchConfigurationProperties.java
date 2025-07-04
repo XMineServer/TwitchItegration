@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public record TwitchConfigurationProperties(
         String clientSecret,
         String clientId,
-        String webhookUri,
-        String redirectUri
+        String webhookUri
 ) {
 }

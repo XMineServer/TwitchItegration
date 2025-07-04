@@ -1,43 +1,10 @@
 spring:
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mariadb://localhost:3306/twitch_integration}
-    username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:password}
-    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
-  security:
-    oauth2:
-      client:
-        registration:
-          twitch:
-            client-id: ${TWITCH_ID:twitch-client-clientId}
-            client-secret: ${TWITCH_SECRET:big-clientSecret!}
-            client-name: Twitch
-            authorization-grant-type: authorization_code
-            redirect-uri: "https://twitch.sidey383.ru//login/oauth2/code/{registrationId}"
-            scope: user:read:email,channel:read:redemptions
-            webhook-uri: ${TWITCH_WEBHOOK_URL:https://twitch.sidey383.ru/webhook/twitch}
-        provider:
-          twitch:
-            authorization-uri: https://id.twitch.tv/oauth2/authorize
-            token-uri: https://id.twitch.tv/oauth2/token
-            user-info-uri: https://api.twitch.tv/helix/users
-            redirect-uri: "https://twitch.sidey383.ru//login/oauth2/code/{registrationId}"
-            user-name-attribute: clientId
   thymeleaf:
     cache: false
     suffix: .html
     prefix: file:src/main/resources/templates/
-
-minecraft:
-  rcon:
-    host: ${MINECRAFT_RCON_HOST:localhost}
-    port: ${MINECRAFT_RCON_PORT:25575}
-    password: ${MINECRAFT_RCON_PASSWORD:password}
-
 logging:
   level:
     org.springframework.security.oauth2: TRACE
@@ -45,4 +12,3 @@ logging:
     org.springframework.web: DEBUG
     feign: DEBUG
     ru.sidey383.twitch: DEBUG
-
