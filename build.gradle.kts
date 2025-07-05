@@ -79,16 +79,6 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.bootBuildImage {
-	imageName.set("sidey383/twitch-integration")
-	tags.set(setOf(
-		"sidey383/twitch-integration:${project.version}",
-		"sidey383/twitch-integration:latest"
-	))
-	environment.set(
-		mapOf(
-			"BP_JVM_VERSION" to "21",
-			"BP_JVM_TYPE" to "jdk"
-		)
-	)
+tasks.bootJar {
+	archiveFileName.set("twitch-integration.jar")
 }
