@@ -29,7 +29,6 @@ public class TwitchWebhook {
     @Enumerated(EnumType.STRING)
     private TwitchEventSubType type;
 
-    @NotNull
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private ActiveStatus status = ActiveStatus.DEACTIVATED;
