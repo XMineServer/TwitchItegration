@@ -55,3 +55,15 @@ jobs:
           IMAGE_NAME=ghcr.io/${LOWERCASE_REPO}
           docker tag sidey383/twitch-integration:latest ${IMAGE_NAME}:latest
           docker push ${IMAGE_NAME}:latest
+
+      - name: Update container on server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/twitch
+            docker pull ghcr.io/xmineserver/twitchitegration:latest
+            docker compose up -d --no-deps twitch-integration
