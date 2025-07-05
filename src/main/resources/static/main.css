@@ -387,6 +387,114 @@ a.button:hover, a[th\\:href*="twitch"]:hover {
     background: #772ce8;
 }
 
+.minecraft-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    background: #232327;
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(145,71,255,0.08);
+    margin-bottom: 2rem;
+}
+.minecraft-form label {
+    color: #9147ff;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+.minecraft-form input[type="text"],
+.minecraft-form input[type="password"],
+.minecraft-form input[type="email"],
+.minecraft-form input:not([type]),
+.minecraft-form textarea {
+    background: #18181b;
+    color: #fff;
+    border: 1.5px solid #9147ff;
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    outline: none;
+    transition: border 0.2s;
+}
+.minecraft-form input:focus,
+.minecraft-form textarea:focus {
+    border: 1.5px solid #a970ff;
+}
+.minecraft-form .event-reward-btn {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+}
+
+/* Channel Points Reward Redemption Table Styles */
+.channel-points-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #232327;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(145,71,255,0.08);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+.channel-points-table th, .channel-points-table td {
+    padding: 0.8rem 1.2rem;
+    text-align: left;
+}
+.channel-points-table th {
+    background: #9147ff;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border-bottom: 2px solid #772ce8;
+}
+.channel-points-table td {
+    background: #232327;
+    color: #f3f3f3;
+    border-bottom: 1px solid #2d2d32;
+    font-size: 1rem;
+}
+.channel-points-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* General Button Styles */
+button, .btn {
+    background: #9147ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(145,71,255,0.10);
+    outline: none;
+    margin: 0.2rem 0.2rem 0.2rem 0;
+    display: inline-block;
+}
+button:hover, .btn:hover {
+    background: #772ce8;
+}
+button:active, .btn:active {
+    background: #5f1fd7;
+}
+button:disabled, .btn:disabled {
+    background: #bdbdbd;
+    color: #232327;
+    cursor: not-allowed;
+}
+
+/* Special Button Colors */
+.btn-danger, button.btn-danger {
+    background: #e53935;
+    color: #fff;
+}
+.btn-danger:hover, button.btn-danger:hover {
+    background: #b71c1c;
+}
+
 @media (max-width: 800px) {
     nav {
         flex-direction: column;

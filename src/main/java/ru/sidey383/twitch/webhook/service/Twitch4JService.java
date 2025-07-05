@@ -10,6 +10,7 @@ import com.github.twitch4j.helix.TwitchHelix;
 import com.github.twitch4j.helix.domain.EventSubSubscriptionList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ import ru.sidey383.twitch.webhook.event.TwitchSubEvent;
 import ru.sidey383.twitch.webhook.model.TwitchEventSubSecret;
 import ru.sidey383.twitch.webhook.repository.TwitchEventSubSecretRepository;
 
-import javax.annotation.Nonnull;
 import java.security.SecureRandom;
 import java.util.HexFormat;
 import java.util.List;
@@ -47,7 +47,7 @@ public class Twitch4JService {
         do {
             var answer = helix.getEventSubSubscriptions(oAuthService.getAuthToken(), null, null, null, cursor, 100).execute();
             var subscriptions = answer.getSubscriptions();
-            if (subscriptions.isEmpty()) return;
+            if (subscriptions.isEmpty()) break;
 
             count += getEventSubSubscriptions(subscriptions);
 
@@ -62,17 +62,12 @@ public class Twitch4JService {
         return subscriptions.stream()
                 .map(subscription -> {
                     if (isActual(subscription.getStatus())) {
-                        eventSubSecretRepository.findById(subscription.getId()).ifPresentOrElse(
-                                (ignore) -> subscriptionCacheService.put(subscription),
-                                () -> log.warn("Unknown webhook subscription {}", subscription.getId())
-                        );
-                        try {
-                            if (subscription.getTransport().getSecret() != null) {
-                                eventSubSecretRepository.save(new TwitchEventSubSecret(subscription.getId(), subscription.getTransport().getSecret()));
-                            }
+                        var subInfo = eventSubSecretRepository.findById(subscription.getId());
+                        if (subInfo.isPresent()) {
+                            subscriptionCacheService.put(subscription);
                             return subscription;
-                        } catch (Throwable t) {
-                            log.error("Failed to save EventSub secret for subscription ID: {}", subscription.getId(), t);
+                        } else {
+                            log.warn("Unknown webhook subscription {}", subscription.getId());
                             return null;
                         }
                     } else {
@@ -125,7 +120,7 @@ public class Twitch4JService {
     /**
      * @see com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes
      **/
-    @Nonnull
+    @NotNull
     public <C extends EventSubCondition, B>
     EventSubSubscription subscribe(
             SubscriptionType<C, B, ?> type,
@@ -140,7 +135,13 @@ public class Twitch4JService {
                         .method(EventSubTransportMethod.WEBHOOK)
                         .build()
         );
-        EventSubSubscriptionList list = helix.createEventSubSubscription(oAuthService.getAuthToken(), postSubscription).execute();
+        EventSubSubscriptionList list;
+        try {
+            list = helix.createEventSubSubscription(oAuthService.getAuthToken(), postSubscription).execute();
+        } catch (Throwable t) {
+            log.error("Fail to create subscription {}", type, t);
+            throw t;
+        }
         var subscriptions = list.getSubscriptions();
         if (subscriptions.isEmpty()) {
             log.error("Failed to create EventSub subscription: {}", postSubscription);

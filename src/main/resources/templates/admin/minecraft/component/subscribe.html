@@ -1,0 +1,18 @@
+<form method="post" th:action="@{/api/minecraft/subscribe}" id="subscribe-form" class="minecraft-form">
+    <label for="subscribe-user">User:</label>
+    <input id="subscribe-user" name="user" />
+    <label for="subscribe-channel">Channel:</label>
+    <input id="subscribe-channel" name="channel" />
+    <button type="submit" class="event-reward-btn">Send subscription</button>
+</form>
+<script>
+document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    await fetch(form.getAttribute('action') || form.action, {
+        method: 'POST',
+        body: formData
+    });
+});
+</script>

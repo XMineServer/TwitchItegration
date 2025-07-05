@@ -2,6 +2,7 @@ package ru.sidey383.twitch.security.utils;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -12,7 +13,6 @@ import ru.sidey383.twitch.model.Session;
 import ru.sidey383.twitch.repository.SessionRepository;
 import ru.sidey383.twitch.security.TwitchOAuth2UserService;
 
-import javax.annotation.Nonnull;
 import java.time.Instant;
 
 @Component
@@ -32,7 +32,7 @@ public class CurrentSessionArgumentResolver implements HandlerMethodArgumentReso
 
     @Override
     public Object resolveArgument(
-            @Nonnull MethodParameter parameter,
+            @NotNull MethodParameter parameter,
             ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory
