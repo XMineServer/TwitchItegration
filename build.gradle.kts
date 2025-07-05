@@ -47,7 +47,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
-	implementation("io.github.MrGraversen:minecraft-rcon:0.0.16")
+	implementation("org.glavo:rcon-java:3.0")
+	implementation("net.kyori:adventure-api:4.22.0")
 
 	implementation("com.github.twitch4j:twitch4j:1.25.0")
 

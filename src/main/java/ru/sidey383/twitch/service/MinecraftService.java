@@ -1,86 +1,59 @@
 package ru.sidey383.twitch.service;
 
-import io.graversen.minecraft.rcon.MinecraftRcon;
-import io.graversen.minecraft.rcon.RconResponse;
-import io.graversen.minecraft.rcon.commands.WhiteListCommand;
-import io.graversen.minecraft.rcon.commands.tellraw.TellRawCommandBuilder;
-import io.graversen.minecraft.rcon.service.ConnectOptions;
-import io.graversen.minecraft.rcon.service.MinecraftRconService;
-import io.graversen.minecraft.rcon.service.RconDetails;
-import io.graversen.minecraft.rcon.util.Colors;
-import io.graversen.minecraft.rcon.util.Selectors;
-import io.graversen.minecraft.rcon.util.Target;
-import io.graversen.minecraft.rcon.util.WhiteListModes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.kyori.adventure.text.Component;
+import org.glavo.rcon.AuthenticationException;
+import org.glavo.rcon.Rcon;
 import org.springframework.stereotype.Service;
 import ru.sidey383.twitch.config.MinecraftRconProperties;
 
-import java.time.Duration;
+import java.io.IOException;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MinecraftService {
 
-    private MinecraftRconService rconService;
     private final MinecraftRconProperties rconProperties;
 
-    private MinecraftRconService getRconInstance() {
-        if (rconService != null && rconService.isConnected()) {
-            return rconService;
-        }
-        RconDetails details = new RconDetails(rconProperties.host(), rconProperties.port(), rconProperties.password());
-        MinecraftRconService svc = new MinecraftRconService(details, ConnectOptions.defaults());
-        svc.connectBlocking(Duration.ofSeconds(5));
-        return rconService = svc;
+    private Rcon getRconInstance() throws IOException, AuthenticationException {
+        return new Rcon(rconProperties.host(), rconProperties.port(), rconProperties.password());
     }
 
     public void addToWhiteListSync(String user) {
-        MinecraftRcon client = getRconInstance().minecraftRcon()
-                .orElseThrow(() -> new IllegalStateException("RCON: Fail to connect"));
-        client.query(new WhiteListCommand(Target.player(user), WhiteListModes.ADD), (response) -> {
-            log.info("WhilteList command result: {}", resultToString(response));
-            return null;
-        });
+        try (Rcon rcon = getRconInstance()) {
+            var answer = rcon.command("/whitelist add %s".formatted(user));
+            log.info("WhilteList command result: {}", answer);
+        } catch (IOException e) {
+            log.error("Fail to send whilt list add command for player {}", user, e);
+        } catch (AuthenticationException e) {
+            log.error("RCON: Authentication fail", e);
+        }
     }
 
     public void sendMessageSync(String user, String message) {
-        MinecraftRcon client = getRconInstance().minecraftRcon()
-                .orElseThrow(() -> new IllegalStateException("Не удалось подключиться к RCON"));
-        var command = new TellRawCommandBuilder()
-                .targeting(Selectors.ALL_PLAYERS)
-                .withText("<%s> %s".formatted(user, message))
-                .build();
-        client.query(command, (response) -> {
-            log.info("Send message command result: {}", resultToString(response));
-            return null;
-        });
+        try (Rcon rcon = getRconInstance()) {
+            var messageComponent = Component.text("<%s> %s".formatted(user, message));
+            var answer = rcon.command("/tellraw @a %s".formatted(messageComponent.toString()));
+            log.info("Send message command result: {}", answer);
+        } catch (IOException e) {
+            log.error("Fail to send message for user {} with content {}", user, message, e);
+        } catch (AuthenticationException e) {
+            log.error("RCON: Authentication fail", e);
+        }
     }
 
     public void subscribeMessageSync(String user, String channel) {
-        MinecraftRcon client = getRconInstance().minecraftRcon()
-                .orElseThrow(() -> new IllegalStateException("Не удалось подключиться к RCON"));
-        var command = new TellRawCommandBuilder()
-                .targeting(Selectors.ALL_PLAYERS)
-                .withText("%s подписался на %s!".formatted(user, channel))
-                .withColor(Colors.GOLD)
-                .build();
-        client.query(command, (response) -> {
-            log.info("Send subscribe message command result: {}", resultToString(response));
-            return null;
-        });
-    }
-
-    private String resultToString(RconResponse response) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("RCON Response #").append(response.getRequestCounter()).append(" (ID=").append(response.getResponseId()).append(") ");
-        builder.append("Start: ").append(response.getRequestStart()).append(" ms, ");
-        builder.append("End: ").append(response.getRequestEnd()).append(" ms, ");
-        builder.append("Duration: ").append(response.getRequestDuration()).append(" ms ");
-        builder.append("Payload: ");
-        builder.append(response.getResponseString()).append(" ");
-        return builder.toString();
+        try (Rcon rcon = getRconInstance()) {
+            var messageComponent = Component.text("%s подписался на %s!".formatted(user, channel));
+            var answer = rcon.command("/tellraw @a %s".formatted(messageComponent.toString()));
+            log.info("Send subscribe message command result: {}", answer);
+        } catch (IOException e) {
+            log.error("Fail to send subscribe for user {} and channel {}", user, channel, e);
+        } catch (AuthenticationException e) {
+            log.error("RCON: Authentication fail", e);
+        }
     }
 
 }
