@@ -38,7 +38,7 @@ public class MinecraftService {
 
     public void addToWhiteListSync(String user) {
         MinecraftRcon client = getRconInstance().minecraftRcon()
-                .orElseThrow(() -> new IllegalStateException("Не удалось подключиться к RCON"));
+                .orElseThrow(() -> new IllegalStateException("RCON: Fail to connect"));
         client.query(new WhiteListCommand(Target.player(user), WhiteListModes.ADD), (response) -> {
             log.info("WhilteList command result: {}", resultToString(response));
             return null;
