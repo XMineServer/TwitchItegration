@@ -10,7 +10,8 @@
     <nav>
         <div class="site-title">Twitch Integration</div>
         <div class="nav-links">
-            <a href="/admin/user/" class="nav-btn" sec:authorize="hasRole('ADMIN')">Users</a>
+            <a href="/admin/user" class="nav-btn" sec:authorize="hasRole('ADMIN')">Users</a>
+            <a href="/admin/minecraft" class="nav-btn" sec:authorize="hasRole('ADMIN')">Minecraft admin</a>
             <a href="/streamer" class="nav-btn" sec:authorize="hasRole('STREAMER')">Settings</a>
         </div>
         <div class="nav-user">

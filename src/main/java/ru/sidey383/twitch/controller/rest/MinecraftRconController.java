@@ -29,7 +29,7 @@ public class MinecraftRconController {
         minecraftService.subscribeMessageSync(user, channel);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/whitelist")
     public void onWhitelist(
             @RequestParam String user
     ) {

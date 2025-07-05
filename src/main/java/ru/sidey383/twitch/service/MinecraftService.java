@@ -3,6 +3,8 @@ package ru.sidey383.twitch.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import org.glavo.rcon.AuthenticationException;
 import org.glavo.rcon.Rcon;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class MinecraftService {
 
     public void addToWhiteListSync(String user) {
         try (Rcon rcon = getRconInstance()) {
-            var answer = rcon.command("/whitelist add %s".formatted(user));
+            var answer = rcon.command("whitelist add %s".formatted(user));
             log.info("WhilteList command result: {}", answer);
         } catch (IOException e) {
             log.error("Fail to send whilt list add command for player {}", user, e);
@@ -33,24 +35,28 @@ public class MinecraftService {
     }
 
     public void sendMessageSync(String user, String message) {
-        try (Rcon rcon = getRconInstance()) {
-            var messageComponent = Component.text("<%s> %s".formatted(user, message));
-            var answer = rcon.command("/tellraw @a %s".formatted(messageComponent.toString()));
-            log.info("Send message command result: {}", answer);
-        } catch (IOException e) {
-            log.error("Fail to send message for user {} with content {}", user, message, e);
-        } catch (AuthenticationException e) {
-            log.error("RCON: Authentication fail", e);
-        }
+        var messageComponent = Component.text("<%s> %s".formatted(user, message));
+        tellRawAll(messageComponent);
     }
 
     public void subscribeMessageSync(String user, String channel) {
+
+        var messageComponent = Component.textOfChildren(
+                Component.text(user).color(TextColor.color(0x1DB954)),
+                Component.text(" подписался на ").color(TextColor.color(0xB3B3B3)),
+                Component.text(channel).color(TextColor.color(0xF7B32B))
+        );
+        tellRawAll(messageComponent);
+
+    }
+
+    public void tellRawAll(Component message) {
         try (Rcon rcon = getRconInstance()) {
-            var messageComponent = Component.text("%s подписался на %s!".formatted(user, channel));
-            var answer = rcon.command("/tellraw @a %s".formatted(messageComponent.toString()));
-            log.info("Send subscribe message command result: {}", answer);
+            String rawMessage = JSONComponentSerializer.json().serialize(message);
+            var answer = rcon.command("tellraw @a %s".formatted(rawMessage));
+            log.info("Send tellraw command with result: {}", answer);
         } catch (IOException e) {
-            log.error("Fail to send subscribe for user {} and channel {}", user, channel, e);
+            log.error("Fail to send all tellraw command with message {}", message, e);
         } catch (AuthenticationException e) {
             log.error("RCON: Authentication fail", e);
         }

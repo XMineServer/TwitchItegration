@@ -2,15 +2,18 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
-    <title>Streamer Rewards</title>
+    <title>Admin minecraft</title>
+    <style src="/main.css"></style>
     <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.min.js"></script>
 </head>
+<body>
 <section layout:fragment="content">
-    <h2>Events</h2>
-    <div th:replace="~{streamer/components/eventRewards}"></div>
+    <h2>Send message</h2>
+    <div th:replace="~{admin/minecraft/component/message}"></div>
     <h2>Subscribes</h2>
-    <div th:replace="~{streamer/components/channelPointsRewardRedemption}"></div>
+    <div th:replace="~{admin/minecraft/component/subscribe}"></div>
     <h2>Rewards</h2>
-    <div th:replace="~{streamer/components/rewards}"></div>
+    <div th:replace="~{admin/minecraft/component/whitelist}"></div>
 </section>
+</body>
 </html>

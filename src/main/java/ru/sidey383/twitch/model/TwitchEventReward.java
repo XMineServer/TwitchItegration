@@ -3,8 +3,8 @@ package ru.sidey383.twitch.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 
 @Getter
 @Setter
@@ -24,11 +24,11 @@ public class TwitchEventReward {
     @ManyToOne(targetEntity = TwitchOAuth2User.class, optional = false, fetch = FetchType.LAZY)
     public TwitchOAuth2User owner;
 
-    @Nonnull
+    @NotNull
     @Enumerated(EnumType.STRING)
     public EventRewardType rewardType;
 
-    @Nonnull
+    @NotNull
     public String rewardId;
 
 }

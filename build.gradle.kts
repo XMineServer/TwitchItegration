@@ -49,6 +49,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
 	implementation("org.glavo:rcon-java:3.0")
 	implementation("net.kyori:adventure-api:4.22.0")
+	implementation("net.kyori:adventure-text-serializer-gson:4.22.0")
 
 	implementation("com.github.twitch4j:twitch4j:1.25.0")
 
@@ -59,6 +60,8 @@ dependencies {
 
 	annotationProcessor("org.projectlombok:lombok")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.4.2.Final")
+
+	compileOnly("org.jetbrains:annotations:26.0.2")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

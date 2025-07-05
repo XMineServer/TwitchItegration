@@ -10,6 +10,7 @@ import com.github.twitch4j.helix.TwitchHelix;
 import com.github.twitch4j.helix.domain.EventSubSubscriptionList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ import ru.sidey383.twitch.webhook.event.TwitchSubEvent;
 import ru.sidey383.twitch.webhook.model.TwitchEventSubSecret;
 import ru.sidey383.twitch.webhook.repository.TwitchEventSubSecretRepository;
 
-import javax.annotation.Nonnull;
 import java.security.SecureRandom;
 import java.util.HexFormat;
 import java.util.List;
@@ -120,7 +120,7 @@ public class Twitch4JService {
     /**
      * @see com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes
      **/
-    @Nonnull
+    @NotNull
     public <C extends EventSubCondition, B>
     EventSubSubscription subscribe(
             SubscriptionType<C, B, ?> type,

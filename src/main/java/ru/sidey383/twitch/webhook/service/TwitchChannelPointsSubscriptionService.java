@@ -5,11 +5,11 @@ import com.github.twitch4j.eventsub.condition.ChannelPointsCustomRewardRedemptio
 import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import ru.sidey383.twitch.utils.StringUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 @Slf4j
@@ -21,7 +21,7 @@ public class TwitchChannelPointsSubscriptionService {
     private final TwitchSubscriptionCacheService subscriptionCacheService;
 
     public EventSubSubscription subscribeRewardRedemptionAdd(
-            @Nonnull
+            @NotNull
             String broadcasterId,
             @Nullable
             String rewardId
@@ -45,7 +45,7 @@ public class TwitchChannelPointsSubscriptionService {
     }
 
     public List<EventSubSubscription> unsubscribeRewardRedemptionAdd(
-            @Nonnull
+            @NotNull
             String broadcasterId,
             @Nullable
             String rewardId,
@@ -78,7 +78,7 @@ public class TwitchChannelPointsSubscriptionService {
     }
 
     public List<EventSubSubscription> getRewardRedemptionAdd(
-            @Nonnull
+            @NotNull
             String broadcasterId,
             @Nullable
             String rewardId
@@ -91,7 +91,7 @@ public class TwitchChannelPointsSubscriptionService {
 
     public boolean compare(
             ChannelPointsCustomRewardRedemptionAddCondition condition,
-            @Nonnull
+            @NotNull
             String broadcasterId,
             @Nullable
             String rewardId

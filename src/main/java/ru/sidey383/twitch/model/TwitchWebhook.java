@@ -2,10 +2,10 @@ package ru.sidey383.twitch.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.sidey383.twitch.dto.twitch.TwitchEventSubType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 
 @Getter
@@ -24,12 +24,12 @@ public class TwitchWebhook {
     @ManyToOne(targetEntity = TwitchOAuth2User.class, optional = false)
     public TwitchOAuth2User owner;
 
-    @Nonnull
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TwitchEventSubType type;
 
-    @Nonnull
+    @NotNull
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private ActiveStatus status = ActiveStatus.DEACTIVATED;
@@ -67,12 +67,12 @@ public class TwitchWebhook {
                 '}';
     }
 
-    @Nonnull
+    @NotNull
     public String getCallback() {
         return Objects.requireNonNullElse(callback, "https://twitch.sidey383.ru/webhook/twitch");
     }
 
-    @Nonnull
+    @NotNull
     public ActiveStatus getStatus() {
         return Objects.requireNonNullElse(status, ActiveStatus.PROBLEM);
     }
