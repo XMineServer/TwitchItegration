@@ -34,3 +34,12 @@ minecraft:
     host: ${MINECRAFT_RCON_HOST:localhost}
     port: ${MINECRAFT_RCON_PORT:25575}
     password: ${MINECRAFT_RCON_PASSWORD:password}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health

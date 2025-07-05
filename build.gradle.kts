@@ -53,6 +53,8 @@ dependencies {
 
 	implementation("com.github.twitch4j:twitch4j:1.25.0")
 
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
 	compileOnly("org.projectlombok:lombok")

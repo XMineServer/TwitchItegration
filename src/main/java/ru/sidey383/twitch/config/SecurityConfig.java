@@ -51,6 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/streamer/**").hasRole("STREAMER")
                         .requestMatchers( "/admin/*").hasRole("ADMIN")
                         .requestMatchers("/streamer/**").hasRole("STREAMER")
+                        .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
