@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "ru.sidey383"
-version = "0.0.2-SNAPSHOT"
+version = "0.1"
 
 java {
 	toolchain {
