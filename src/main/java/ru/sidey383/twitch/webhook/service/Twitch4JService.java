@@ -11,7 +11,7 @@ import com.github.twitch4j.helix.domain.EventSubSubscriptionList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import ru.sidey383.twitch.config.twitch.TwitchConfigurationProperties;
@@ -39,7 +39,7 @@ public class Twitch4JService {
     private final TwitchEventSubSecretRepository eventSubSecretRepository;
     private final TwitchSubscriptionCacheService subscriptionCacheService;
 
-    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ContextRefreshedEvent.class)
     private void onLoad() {
         log.info("Twitch4JService is ready, loading existing subscriptions...");
         String cursor = null;
