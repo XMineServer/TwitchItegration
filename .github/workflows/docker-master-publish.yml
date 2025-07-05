@@ -12,6 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
+  IMAGE_NAME: ghcr.io/sidey383/twitch-integration
 
 jobs:
   build-and-push:
