@@ -74,5 +74,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /opt/twitch
-            docker pull ${{ steps.meta.outputs.tags }}
+            docker pull ${{ env.DOCKER_METADATA_OUTPUT_TAGS }}
             docker compose up -d --no-deps twitch-integration

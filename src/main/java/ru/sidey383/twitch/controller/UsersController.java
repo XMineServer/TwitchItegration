@@ -15,7 +15,7 @@ public class UsersController {
     private final UserService userService;
 
 
-    @GetMapping("/")
+    @GetMapping
     public String adminUsers() {
         return "admin/user/list";
     }

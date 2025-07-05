@@ -2,7 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
-    <title>Users!</title>
+    <title>Admin users</title>
     <style src="/main.css"></style>
     <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.min.js"></script>
 </head>
@@ -18,7 +18,7 @@
     <button hx-get="/admin/user/table"
             hx-target="#user-table"
             hx-swap="innerHTML">
-        Обновить таблицу пользователей
+        Update users
     </button>
 </section>
 </body>
