@@ -20,7 +20,7 @@ spring:
             client-secret: ${TWITCH_SECRET:big-clientSecret!}
             client-name: Twitch
             authorization-grant-type: authorization_code
-            redirect-uri: "https://twitch.sidey383.ru/login/oauth2/code/{registrationId}"
+            redirect-uri: "${REDIRECT_URI_BASE:https://twitch.sidey383.ru}/login/oauth2/code/{registrationId}"
             scope: user:read:email,channel:read:redemptions
             webhook-uri: ${TWITCH_WEBHOOK_URL:https://twitch.sidey383.ru/webhook/twitch}
         provider:
